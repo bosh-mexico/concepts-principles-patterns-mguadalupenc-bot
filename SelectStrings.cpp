@@ -1,28 +1,26 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <functional> // for std::function
+#include <functional>
 
-
-// Function to check if a string starts with a given initial
+// ------------------- Utility Function -------------------
 bool startsWithInitial(const std::string& str, char initial) {
     return !str.empty() && str[0] == initial;
 }
 
-// Function to print strings that satisfy the predicate and count them
-std::vector<std::string> filterStrings(const std::vector<std::string>& strings, 
-                     std::function<bool(const std::string&)> predicate) {
-   vector<string> result;
-    for (const auto& str : strings) {
-        if (predicate(str)) {
-            result.push_back(str);
-            
+// ------------------- Template Function (Parametric Polymorphism) -------------------
+template <typename T>
+std::vector<T> filterItems(const std::vector<T>& items, std::function<bool(const T&)> predicate) {
+    std::vector<T> result;
+    for (const auto& item : items) {
+        if (predicate(item)) {
+            result.push_back(item);
         }
     }
-
-   return result;
+    return result;
 }
 
+// ------------------- Main -------------------
 int main() {
     std::vector<std::string> strings = {
         "Bosch", "Mexico", "Mango", "Mark", "Blr", "Clean code"
@@ -32,13 +30,15 @@ int main() {
     std::cout << "Enter an initial character: ";
     std::cin >> initial;
 
-    // Use a lambda to wrap the startsWithInitial function with the user's initial
+    // Predicate for strings starting with the given initial
     auto predicate = [initial](const std::string& str) {
         return startsWithInitial(str, initial);
     };
 
-    std::vector<std::string> result = filterStrings(strings, predicate);
+    // Use the template function with strings
+    std::vector<std::string> result = filterItems<std::string>(strings, predicate);
 
+    // Output results
     std::cout << "Strings starting with '" << initial << "':\n";
     for (const auto& str : result) {
         std::cout << str << std::endl;
