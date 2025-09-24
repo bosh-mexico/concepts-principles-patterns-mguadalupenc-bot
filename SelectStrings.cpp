@@ -4,19 +4,17 @@
 #include <functional> // for std::function
 
 // Function to print strings that satisfy the predicate and count them
-void printAndCountIf(const std::vector<std::string>& strings, 
+vector<string> filterStrings(const std::vector<std::string>& strings, 
                      std::function<bool(const std::string&)> predicate) {
-    int count = 0;
-    std::cout << "Strings matching the condition:\n";
-
+   vector<string> result;
     for (const auto& str : strings) {
         if (predicate(str)) {
-            std::cout << str << std::endl;
-            count++;
+            result.pubh_back(str);
+            
         }
     }
 
-    std::cout << "Total matching strings: " << count << std::endl;
+   return result;
 }
 
 int main() {
@@ -33,7 +31,7 @@ int main() {
         return !str.empty() && str[0] == initial;
     };
 
-    printAndCountIf(strings, startsWithInitial);
+    vector<string> result=filterStrings(strings, startsWithInitial);
 
     return 0;
 }
